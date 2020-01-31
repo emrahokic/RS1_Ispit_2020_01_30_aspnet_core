@@ -24,7 +24,7 @@ namespace RS1_Ispit_asp.net_core.ViewModels
         public class Row
         {
 
-            public int UcesnikID { get; set; }
+            public int TakmicenjeUcesinkID { get; set; }
             public bool Pristupio { get; set; }
             public string PristupioString { get { return Pristupio ? "DA" : "NE"; }  }
             public int Bodovi { get; set; }

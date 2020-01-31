@@ -230,7 +230,7 @@ namespace RS1_Ispit_asp.net_core.Controllers
                 BrojUDnevniku = y.OdjeljenjeStavka.BrojUDnevniku,
                 Odjeljenje = y.OdjeljenjeStavka.Odjeljenje.Oznaka,
                 Pristupio = y.Pristupio,
-                UcesnikID = y.TakmicenjeUcesnikID
+                TakmicenjeUcesinkID = y.TakmicenjeUcesnikID
             }).ToList();
 
             return PartialView(model);
@@ -265,19 +265,34 @@ namespace RS1_Ispit_asp.net_core.Controllers
 
             return RedirectToAction("Rezultati", "Takmicenje", new { TakmicenjeID = takmicenje.TakmicenjeID });
         }
-        public IActionResult Uredi(int UcesnikID)
+
+        public IActionResult UpdateBodova(int UcesnikID)
         {
 
-            TakmicenjeUcesnik ucesnik = _db.TakmicenjeUcesnik.Where(x => x.TakmicenjeUcesnikID == UcesnikID).FirstOrDefault();
+            UpdateBodoveVM ucesnik = _db.TakmicenjeUcesnik.Where(x => x.TakmicenjeUcesnikID == UcesnikID).Select(x=> new UpdateBodoveVM()
+            {
+                Bodovi = x.Bodovi,
+                ImePrezime = x.OdjeljenjeStavka.Ucenik.ImePrezime,
+                TakmicenjeUcesinkID = x.TakmicenjeUcesnikID
+            }).FirstOrDefault();
+
+
+            return PartialView("UpdateBodovePV", ucesnik);
+        }
+        [HttpPost]
+        public IActionResult UpdateBodova(int TakmicenjeUcesinkID, int Bodovi)
+        {
+            TakmicenjeUcesnik ucesnik = _db.TakmicenjeUcesnik.Where(x => x.TakmicenjeUcesnikID == TakmicenjeUcesinkID).FirstOrDefault();
 
             if (ucesnik != null)
             {
-                ucesnik.Pristupio = !ucesnik.Pristupio;
+                ucesnik.Bodovi = Bodovi;
+                ucesnik.Pristupio = true;
             }
 
             _db.SaveChanges();
 
-            return RedirectToActionPermanent(nameof(RezultatiPV), new { TakmicenjeID = ucesnik.TakmicenjeID });
+            return RedirectToActionPermanent(nameof(RezultatiPV), new { TakmicenjeID = ucesnik.TakmicenjeID});
         }
     }
 }

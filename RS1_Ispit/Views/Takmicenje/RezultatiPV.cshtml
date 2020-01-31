@@ -69,20 +69,31 @@
                     else
                     {
 
-                        <a class="@item.PristupioString" ajax-poziv="da" href="/Takmicenje/Prisustvo?UcesnikID=@item.UcesnikID" ajax-rezultat="ajaxDiv">
+                        <a class="@item.PristupioString" ajax-poziv="da" href="/Takmicenje/Prisustvo?UcesnikID=@item.TakmicenjeUcesinkID" ajax-rezultat="ajaxDiv">
                             @item.PristupioString
                         </a>
                     }
 
                 </td>
                 <td>
-                    @item.Bodovi
+                    @if (!Model.Zakljuceno)
+                    {
+                        <form ajax-poziv="da" ajax-rezultat="ajaxDiv" action="/Takmicenje/UpdateBodova">
+                            <input name="TakmicenjeUcesinkID" value="@item.TakmicenjeUcesinkID" hidden="hidden" />
+                            <input name="Bodovi" value="@item.Bodovi" />
+                            <button style="visibility:hidden" hidden="hidden" type="submit" class="btn btn-primary">Snimi</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span>@item.Bodovi</span>
+                    }
 
                 </td>
                 <td>
                     @if (!Model.Zakljuceno)
                     {
-                        <a ajax-poziv="da" href="/Takmicenje/Uredi?UcesnikID=@item.UcesnikID" ajax-rezultat="ajaxDiv">Uredi</a>
+                        <a ajax-poziv="da" href="/Takmicenje/UpdateBodova?UcesnikID=@item.TakmicenjeUcesinkID" ajax-rezultat="ajaxDiv">Uredi</a>
                     }
                    
                     </td>
