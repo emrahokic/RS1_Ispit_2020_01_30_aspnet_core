@@ -1,0 +1,28 @@
+﻿@model RezultatiDetaljiVM
+@{
+    ViewData["Title"] = "Rezultati";
+}
+
+<h2>Rezultati</h2>
+<br />  
+<br />  
+
+<h5>Skola domacin: @Model.SkolaNaziv</h5>
+<h5>Predmet: @Model.Predmet</h5>
+<h5>Razred: @Model.Razred</h5>
+<h5>Datum: @Model.Datum</h5>
+<a asp-action="Zakljucaj" asp-controller="Takmicenje" asp-route-TakmicenjeID="@Model.TakmicenjeID" >Zakljucaj</a>
+<div id="ajaxDiv">
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+          $.get("/Takmicenje/RezultatiPV?TakmicenjeID=@Model.TakmicenjeID", function (data, status) {
+            $("#ajaxDiv").html(data);
+        });
+
+    });
+</script>

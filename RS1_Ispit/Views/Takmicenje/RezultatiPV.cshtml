@@ -1,0 +1,93 @@
+﻿@model RezultatiDetaljiVM
+@{
+    ViewData["Title"] = "RezultatiPV";
+}
+
+<style>
+
+    .DA{
+        background-color: green;
+        color:white
+
+    }
+    .NE {
+        background-color: red;
+        color: white
+    }
+</style>
+
+<table class="table table-bordered ">
+    <thead>
+        <tr>
+            <th>
+                Odjeljenje
+
+            </th>
+            <th>
+                Skola
+
+            </th>
+            <th>
+                Broj u Dnevniku
+            </th>
+            <th>
+                Pristupio
+            </th>
+            <th>
+                Rezultat bodovi
+                (max 100)
+            </th>
+            <th>
+                Akcija
+            </th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Ucesnici)
+        {
+            <tr>
+                <td>
+                    @item.Odjeljenje
+
+                </td>
+                <td>
+                    @item.Skola
+
+                </td>
+                <td>
+                    @item.BrojUDnevniku
+
+                </td>
+                <td>
+                    @if (Model.Zakljuceno)
+                    {
+                        <span class="@item.PristupioString">
+                            @item.PristupioString
+                        </span>
+                    }
+                    else
+                    {
+
+                        <a class="@item.PristupioString" ajax-poziv="da" href="/Takmicenje/Prisustvo?UcesnikID=@item.UcesnikID" ajax-rezultat="ajaxDiv">
+                            @item.PristupioString
+                        </a>
+                    }
+
+                </td>
+                <td>
+                    @item.Bodovi
+
+                </td>
+                <td>
+                    @if (!Model.Zakljuceno)
+                    {
+                        <a ajax-poziv="da" href="/Takmicenje/Uredi?UcesnikID=@item.UcesnikID" ajax-rezultat="ajaxDiv">Uredi</a>
+                    }
+                   
+                    </td>
+            </tr>
+
+        }
+    </tbody>
+</table>

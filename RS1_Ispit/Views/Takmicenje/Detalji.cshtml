@@ -1,0 +1,82 @@
+﻿@model TakmicenjeDetaljiVM
+@{
+    ViewData["Title"] = "Detalji";
+}
+
+<h2>Detalji</h2>
+<h5>Skola domacin: @Model.SkolaNaziv</h5>
+<h5>Razred: @Model.Razred</h5>
+<table class="table table-bordered ">
+    <thead>
+        <tr>
+            <th>
+                Tamičenje
+                ID
+
+            </th>
+            <th>
+                Predmet
+            </th>
+            <th>
+                Razred
+            </th>
+            <th>
+                Datum
+            </th>
+            <th>
+                Broj
+                učesnika
+                koji nisu
+                pristupili
+            </th>
+            <th>
+                Najbolji učesnik
+                (Škola | Odjeljenje
+                | Ime i prezime)
+            </th>
+            <th>
+                Akcija
+            </th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Takmicenja)
+        {
+            <tr>
+                <td>
+                    @item.TakmicenjeID
+
+                </td>
+                <td>
+                    @item.Predmet
+
+                </td>
+                <td>
+                    @item.Razred
+
+                </td>
+                <td>
+                    @item.Datum
+
+                </td>
+                <td>
+                    @item.BrojUcesnikaKojiNisuPristupili
+
+                </td>
+                <td>
+                    @item.Skola | @item.Odjeljenje | @item.ImePrezime
+
+
+                </td>
+                <td>
+                    <a  asp-controller="Takmicenje" asp-action="Rezultati" asp-route-TakmicenjeID="@item.TakmicenjeID">Rezultati</a>
+
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-primary" asp-action="DodajTakmicenje" asp-controller="Takmicenje" asp-route-SkolaID="@Model.SkolaID">Dodaj</a>

@@ -1,0 +1,18 @@
+﻿@model  TakmicenjeFormVM
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    <form method="post">
+        
+            <select asp-for="SkolaID" asp-items="Model.Skole"></select>
+            <select asp-for="Razred" asp-items="Model.Razredi"></select>
+
+            <button  type="submit" >Odaberi</button>
+
+    </form>
+
+</div>
