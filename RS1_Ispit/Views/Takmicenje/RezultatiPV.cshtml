@@ -36,6 +36,7 @@
             <th>
                 Rezultat bodovi
                 (max 100)
+                //Spremanje bodova se moze izvrsiti klikom na Enter dok se nalazimo u formi za unos bodova//
             </th>
             <th>
                 Akcija
@@ -62,6 +63,7 @@
                 <td>
                     @if (Model.Zakljuceno)
                     {
+                        //Dodavanje klase na osnovu PristupioString(DA,NE) ( style je definisan na pocetku dokumenta)
                         <span class="@item.PristupioString">
                             @item.PristupioString
                         </span>
@@ -78,6 +80,8 @@
                 <td>
                     @if (!Model.Zakljuceno)
                     {
+
+
                         <form ajax-poziv="da" ajax-rezultat="ajaxDiv" action="/Takmicenje/UpdateBodova">
                             <input name="TakmicenjeUcesinkID" value="@item.TakmicenjeUcesinkID" hidden="hidden" />
                             <input name="Bodovi" value="@item.Bodovi" />

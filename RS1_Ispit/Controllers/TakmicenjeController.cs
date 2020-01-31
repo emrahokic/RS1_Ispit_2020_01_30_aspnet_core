@@ -12,7 +12,7 @@ using RS1_Ispit_asp.net_core.ViewModels;
 
 namespace RS1_Ispit_asp.net_core.Controllers
 {
-
+    //View Model za pocetnu formu za izbor skole i razreda 
     public  class TakmicenjeFormVM
     {
         public int SkolaID { get; set; }
@@ -24,6 +24,8 @@ namespace RS1_Ispit_asp.net_core.Controllers
         {
             Skole = new List<SelectListItem>();
             Razredi = new List<SelectListItem>();
+
+            //Dodavanje razreda u listu za DropDown
             Razredi.Add(new SelectListItem()
             {
                 Text = "Odaberite Razred",
@@ -133,6 +135,7 @@ namespace RS1_Ispit_asp.net_core.Controllers
             return View(model);
         }
 
+        //Korak 3: Akcija za otvaranje View-a za dodavanje Takmicenja
         public IActionResult DodajTakmicenje(int SkolaID)
         {
 
@@ -143,7 +146,7 @@ namespace RS1_Ispit_asp.net_core.Controllers
 
             }).FirstOrDefault();
 
-           
+           //Posto u tabeli ima istih naziva predemta, grupiramo po nazivu nakon toga selektiramo prvi u grupi te selektiramo i pravimo new SelectLsitItem
             dodajVM.Predmeti = _db.Predmet.GroupBy(x=>x.Naziv).Select(x => x.First()).Select(x=> new SelectListItem() { 
               Text = x.Naziv,
               Value = x.Naziv.ToString()
@@ -154,6 +157,8 @@ namespace RS1_Ispit_asp.net_core.Controllers
             return View(dodajVM);
         }
 
+
+        //Korak 3: dodavanje Takmicenja i ucesnika na takmicenje 
         [HttpPost]
         public IActionResult DodajTakmicenje(TakmicenjeDodajVM model)
         {
@@ -201,7 +206,7 @@ namespace RS1_Ispit_asp.net_core.Controllers
 
             return RedirectToActionPermanent(nameof(Detalji), new { SkolaID = model.SkolaID });
         }
-
+        //Korak 4: Akcija za otvaranje View-a Rezultati
         public IActionResult Rezultati(int TakmicenjeID)
         {
 
@@ -218,6 +223,7 @@ namespace RS1_Ispit_asp.net_core.Controllers
             return View(model);
         }
 
+        //Korak 4 : ajax poziv za Rezultate - Lista Ucesnika
         public IActionResult RezultatiPV(int TakmicenjeID)
         {
             RezultatiDetaljiVM model = new RezultatiDetaljiVM();
@@ -236,6 +242,8 @@ namespace RS1_Ispit_asp.net_core.Controllers
             return PartialView(model);
         }
 
+
+        //Korak 4: Akcija za update prisustva (akaxPoziv), nakon update-a redirekcija na akciju  RezultatiPV zbog refresha PartialView-a (ajaxPoziv)
         public IActionResult Prisustvo(int UcesnikID)
         {
 
@@ -251,6 +259,7 @@ namespace RS1_Ispit_asp.net_core.Controllers
             return RedirectToAction("RezultatiPV", "Takmicenje",new { TakmicenjeID = ucesnik.TakmicenjeID});
         }
 
+        //Korak 4: Akcija za Zaklucavanje Takmicenja (Nakon izvrsenja redirekcija na akciju Rezultati)
         public IActionResult Zakljucaj(int TakmicenjeID)
         {
 
@@ -266,6 +275,8 @@ namespace RS1_Ispit_asp.net_core.Controllers
             return RedirectToAction("Rezultati", "Takmicenje", new { TakmicenjeID = takmicenje.TakmicenjeID });
         }
 
+
+        //Korak 4: Akcija za otvaranje forme za dodavanje bodova (ajaxPoziv)
         public IActionResult UpdateBodova(int UcesnikID)
         {
 
@@ -279,6 +290,9 @@ namespace RS1_Ispit_asp.net_core.Controllers
 
             return PartialView("UpdateBodovePV", ucesnik);
         }
+
+        //Korak 4: akcija za Post bodova (ajaxPoziv) 
+        //Zadatak 3: Iskoristena ista akcija za update Bodova (ajaxPoziv)
         [HttpPost]
         public IActionResult UpdateBodova(int TakmicenjeUcesinkID, int Bodovi)
         {
@@ -286,8 +300,8 @@ namespace RS1_Ispit_asp.net_core.Controllers
 
             if (ucesnik != null)
             {
-                ucesnik.Bodovi = Bodovi;
-                ucesnik.Pristupio = true;
+                ucesnik.Bodovi = Bodovi > 100 ? 100 : Bodovi; //Ako je unijeta cifra veca od 100 za bodove dodijeliti 100b (posto u zadatku na tabeli pise max 100b)
+                ucesnik.Pristupio = true; //ako dodajemo bodove za Ucesnika, podrazumjeva se da je pristupio Takmicenju(u slucaju da nismo azutitali prisustvo);(nije trazeno u zadatku :D )
             }
 
             _db.SaveChanges();
