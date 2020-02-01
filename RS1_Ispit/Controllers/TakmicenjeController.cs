@@ -69,9 +69,13 @@ namespace RS1_Ispit_asp.net_core.Controllers
                     Razred = x.Razred,
                     BrojUcesnikaKojiNisuPristupili = x.Ucesnici.Where(y => y.Pristupio == false).Count(),
                     /* iz liste Ucesnici uzimamo Max vrijednost za bodove te provjeravamo koji ucesnik ima taj broj bodova i njega uzimamo za najboljek ucesnika*/
-                    Skola = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Odjeljenje.Skola.Naziv).FirstOrDefault(),
-                    Odjeljenje = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Odjeljenje.Oznaka).FirstOrDefault(),
-                    ImePrezime = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Ucenik.ImePrezime).FirstOrDefault(),
+                    //Skola = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Odjeljenje.Skola.Naziv).FirstOrDefault(),
+                    //Odjeljenje = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Odjeljenje.Oznaka).FirstOrDefault(),
+                    //ImePrezime = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Ucenik.ImePrezime).FirstOrDefault(),
+                    //Optimizovano: ;D
+                    Skola = x.Ucesnici.OrderByDescending(y => y.Bodovi).Select(y => y.OdjeljenjeStavka.Odjeljenje.Skola.Naziv).FirstOrDefault(),
+                    Odjeljenje = x.Ucesnici.OrderByDescending(y => y.Bodovi).Select(y => y.OdjeljenjeStavka.Odjeljenje.Oznaka).FirstOrDefault(),
+                    ImePrezime = x.Ucesnici.OrderByDescending(y => y.Bodovi).Select(y => y.OdjeljenjeStavka.Ucenik.ImePrezime).FirstOrDefault(),
                     Predmet = x.Predmet.Naziv,
                     TakmicenjeID = x.TakmicenjeID
                 }).ToList();
@@ -86,9 +90,13 @@ namespace RS1_Ispit_asp.net_core.Controllers
                     Razred = x.Razred,
                     BrojUcesnikaKojiNisuPristupili = x.Ucesnici.Where(y => y.Pristupio == false).Count(),
                     /* iz liste Ucesnici uzimamo Max vrijednost za bodove te provjeravamo koji ucesnik ima taj broj bodova i njega uzimamo za najboljek ucesnika*/
-                    Skola = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Odjeljenje.Skola.Naziv).FirstOrDefault(),
-                    Odjeljenje = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Odjeljenje.Oznaka).FirstOrDefault(),
-                    ImePrezime = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Ucenik.ImePrezime).FirstOrDefault(),
+                    //Skola = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Odjeljenje.Skola.Naziv).FirstOrDefault(),
+                    //Odjeljenje = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Odjeljenje.Oznaka).FirstOrDefault(),
+                    //ImePrezime = x.Ucesnici.Where(y => y.Bodovi == x.Ucesnici.Max(i => i.Bodovi)).Select(y => y.OdjeljenjeStavka.Ucenik.ImePrezime).FirstOrDefault(),
+                    //Optimizovano: ;D
+                    Skola = x.Ucesnici.OrderByDescending(y=>y.Bodovi).Select(y => y.OdjeljenjeStavka.Odjeljenje.Skola.Naziv).FirstOrDefault(),
+                    Odjeljenje = x.Ucesnici.OrderByDescending(y => y.Bodovi).Select(y => y.OdjeljenjeStavka.Odjeljenje.Oznaka).FirstOrDefault(),
+                    ImePrezime = x.Ucesnici.OrderByDescending(y => y.Bodovi).Select(y => y.OdjeljenjeStavka.Ucenik.ImePrezime).FirstOrDefault(),
                     Predmet = x.Predmet.Naziv,
                     TakmicenjeID = x.TakmicenjeID
                 }).ToList();
